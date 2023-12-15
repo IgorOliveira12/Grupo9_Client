@@ -34,13 +34,13 @@ public class ClientTestHttpURLConnection {
         //alterarGastoMaximoCategoria("Moradia",3900.0);
         //deleteCategoria("Moradia");
         //getCategoria("Educacao");
-        //visualizarPercentagemGastosPorCategoriaNoOrcamento();
+        visualizarPercentagemGastosPorCategoriaNoOrcamento();
         
         
         // Operações relacionadas a Subcategorias
         //addSubcategoria("Comida legumes",1000.0);
         //getSubcategorias();
-        getSubcategoria("Renda");
+        //getSubcategoria("Renda");
         //updateSubcategoria();
         //alterarGastoMaximoSubcategoria("Renda", 2500.0);
         //deleteSubcategoria("Pets");
