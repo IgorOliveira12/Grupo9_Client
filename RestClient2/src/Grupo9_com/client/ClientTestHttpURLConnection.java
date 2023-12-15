@@ -50,7 +50,7 @@ public class ClientTestHttpURLConnection {
         // Operações relacionadas a Transacoes
         //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
         //getTransacoes();
-        //getTransacao("Pagar comida ao cao");
+        getTransacao("Autocarro");
         //updateTransacao(new Transacao()); // Substitua pelo objeto Transacao real
         //removeTransacao("descricaoTransacao"); // Substitua pela descrição da transação a ser removida
         //alterarCategoriaTransacao("descricaoTransacao", "novaCategoria"); // Substitua pela descrição da transação e nova categoria
