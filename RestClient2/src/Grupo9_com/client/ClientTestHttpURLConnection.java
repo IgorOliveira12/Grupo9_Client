@@ -30,9 +30,9 @@ public class ClientTestHttpURLConnection {
         //mostrarStatusOrcamento();
 
         // Operações relacionadas a Categorias (100% funcional)
-        //addCategoria("Cao", 9000.0);
+        addCategoria("Cao", 9000.0);
         //alterarGastoMaximoCategoria("Moradia",3900.0);
-        //deleteCategoria("Alimentacao");
+        //deleteCategoria("Moradia");
         //getCategoria("Educacao");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
         
@@ -244,7 +244,7 @@ public class ClientTestHttpURLConnection {
     /**
      * Adiciona uma nova subcategoria no sistema através de uma requisição HTTP POST.
      */
-    private static void addSubcategoria(String nomeSubc, double gastoMaxSubc, Categoria categoria) {
+    private static void addSubcategoria(String nomeSubc, double gastoMaxSubc) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -260,7 +260,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Subcategoria(nomeSubc, gastoMaxSubc, categoria), Subcategoria.class);
+			String postData = gson.toJson(new Subcategoria(nomeSubc, gastoMaxSubc), Subcategoria.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
