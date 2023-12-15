@@ -24,9 +24,10 @@ public class ClientTestHttpURLConnection {
         //getOrcamentos();
         //addOrcamento(18000.0,"10/12/2022");
         //adicionarOuReduzirValorOrcamento(500.0);
-        //removeOrcamento(1000.0); não se quer
         //imprimirHistoricoOrcamentos();
         //mostrarStatusOrcamento();
+    	
+        //removeOrcamento(1000.0); talvez se use??
 
         // Operações relacionadas a Categorias (100% funcional)
         //addCategoria("Caoo", 9000.0);
@@ -59,8 +60,7 @@ public class ClientTestHttpURLConnection {
         // Operações relacionadas a Metas
         //addMeta("Quero alcançar a Ferrari o mais rapido possivel",15000.0,"15/12/2026","Carro de sonho");
         //getMetas();
-        getMeta("Carro");
-        //updateMeta(new Meta()); // Substitua pelo objeto Meta real
+        //getMeta("Carro");
         //alterarValorMeta("nomeMeta", 1500.0); // Substitua pelo nome da meta e novo valor
         //alterarPrazoMeta("nomeMeta", "novaData"); // Substitua pelo nome da meta e nova data
         //verificarMetasCumpridas();
@@ -949,38 +949,6 @@ public class ClientTestHttpURLConnection {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
-
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Atualiza uma meta no sistema através de uma requisição HTTP PUT.
-     *
-     * @param meta O objeto Meta atualizado.
-     */
-    private static void updateMeta(Meta meta) {
-        try {
-            // Criação da URL para a operação de atualização de meta
-            URL url = new URL("http://localhost:8080/RESTServer/meta/updateMeta");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("PUT");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
-
-            // Conversão do objeto Meta atualizado para formato JSON e envio da requisição
-            Gson gson = new Gson();
-            String postData = gson.toJson(meta, Meta.class);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postData);
-            wr.flush();
-            wr.close();
 
             // Processa a resposta da requisição
             handleResponse(con);
