@@ -34,7 +34,7 @@ public class ClientTestHttpURLConnection {
         //alterarGastoMaximoCategoria("Moradia",3900.0);
         //deleteCategoria("Moradia");
         //getCategoria("Educacao");
-        visualizarPercentagemGastosPorCategoriaNoOrcamento();
+        //visualizarPercentagemGastosPorCategoriaNoOrcamento();
         
         
         // Operações relacionadas a Subcategorias
