@@ -23,14 +23,13 @@ public class ClientTestHttpURLConnection {
         // ORCAMENTO POR FAZER (ao criar orcamento, deletar tudo, guardar tudo no orcamento anterior!)
         //getOrcamentos();
         //addOrcamento(18000.0,"10/12/2022");
-        //adicionarOuReduzirValorOrcamento(500.0); not possible
+        //adicionarOuReduzirValorOrcamento(500.0);
         //removeOrcamento(1000.0); não se quer
         //imprimirHistoricoOrcamentos();
-        //calcularGastoRealizado(1000.0); não se quer
         //mostrarStatusOrcamento();
 
         // Operações relacionadas a Categorias (100% funcional)
-        addCategoria("Cao", 9000.0);
+        //addCategoria("Caoo", 9000.0);
         //alterarGastoMaximoCategoria("Moradia",3900.0);
         //deleteCategoria("Moradia");
         //getCategoria("Educacao");
@@ -38,35 +37,35 @@ public class ClientTestHttpURLConnection {
         
         
         // Operações relacionadas a Subcategorias
-        //addSubcategoria("Comida legumes",1000.0,);
+        //addSubcategoria("Comida legumes",1000.0);
         //getSubcategorias();
-        //getSubcategoria("Renda");
+        getSubcategoria("Renda");
         //updateSubcategoria();
         //alterarGastoMaximoSubcategoria("Renda", 2500.0);
         //deleteSubcategoria("Pets");
         //calcularPercentagemGastos("nomeSubcategoria", 1200.0);
 
-        /**
+        
         // Operações relacionadas a Transacoes
-        addTransacao(new Transacao()); // Substitua pelo objeto Transacao real
-        getTransacoes();
-        getTransacao("descricaoTransacao"); // Substitua pela descrição da transação desejada
-        updateTransacao(new Transacao()); // Substitua pelo objeto Transacao real
-        removeTransacao("descricaoTransacao"); // Substitua pela descrição da transação a ser removida
-        alterarCategoriaTransacao("descricaoTransacao", "novaCategoria"); // Substitua pela descrição da transação e nova categoria
-        alterarSubcategoriaTransacao("descricaoTransacao", "novaSubcategoria"); // Substitua pela descrição da transação e nova subcategoria
-        alterarDataTransacao("descricaoTransacao", "novaData"); // Substitua pela descrição da transação e nova data
+        //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
+        //getTransacoes();
+        //getTransacao("Pagar comida ao cao");
+        //updateTransacao(new Transacao()); // Substitua pelo objeto Transacao real
+        //removeTransacao("descricaoTransacao"); // Substitua pela descrição da transação a ser removida
+        //alterarCategoriaTransacao("descricaoTransacao", "novaCategoria"); // Substitua pela descrição da transação e nova categoria
+        //alterarSubcategoriaTransacao("descricaoTransacao", "novaSubcategoria"); // Substitua pela descrição da transação e nova subcategoria
+        //alterarDataTransacao("descricaoTransacao", "novaData"); // Substitua pela descrição da transação e nova data
 
         // Operações relacionadas a Metas
-        addMeta(new Meta()); // Substitua pelo objeto Meta real
-        getMetas();
-        getMeta("nomeMeta"); // Substitua pelo nome da meta desejada
-        updateMeta(new Meta()); // Substitua pelo objeto Meta real
-        alterarValorMeta("nomeMeta", 1500.0); // Substitua pelo nome da meta e novo valor
-        alterarPrazoMeta("nomeMeta", "novaData"); // Substitua pelo nome da meta e nova data
-        verificarMetasCumpridas();
-        listarMetasNaoCumpridas();
-        **/
+        //addMeta("Quero alcançar a Ferrari o mais rapido possivel",15000.0,"15/12/2026","Carro de sonho");
+        //getMetas();
+        getMeta("Carro");
+        //updateMeta(new Meta()); // Substitua pelo objeto Meta real
+        //alterarValorMeta("nomeMeta", 1500.0); // Substitua pelo nome da meta e novo valor
+        //alterarPrazoMeta("nomeMeta", "novaData"); // Substitua pelo nome da meta e nova data
+        //verificarMetasCumpridas();
+        //listarMetasNaoCumpridas();
+
     }
 
     /**
@@ -631,27 +630,6 @@ public class ClientTestHttpURLConnection {
     }
 
     /**
-     * Calcula o gasto realizado para um orçamento específico através de uma requisição HTTP GET.
-     *
-     * @param valorAnual O valor anual do orçamento para o qual o gasto realizado será calculado.
-     */
-    private static void calcularGastoRealizado(double valorAnual) {
-        try {
-            // Criação da URL para a operação de cálculo de gasto realizado
-            URL url = new URL("http://localhost:8080/RESTServer/orcamento/calcularGastoRealizado/" + valorAnual);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Mostra o status atual do orçamento através de uma requisição HTTP GET.
      */
     private static void mostrarStatusOrcamento() {
@@ -677,32 +655,53 @@ public class ClientTestHttpURLConnection {
      *
      * @param transacao O objeto Transacao a ser adicionado.
      */
-    private static void addTransacao(Transacao transacao) {
-        try {
-            // Criação da URL para a operação de adição de transação
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/addTransacao");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
+    private static void addTransacao(String data, double valor, String descricao) {
+		HttpURLConnection conn = null;
+		Gson gson = new Gson();
 
-            // Conversão do objeto Transacao para formato JSON e envio da requisição
-            Gson gson = new Gson();
-            String postData = gson.toJson(transacao, Transacao.class);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postData);
-            wr.flush();
-            wr.close();
+		try {
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			URL url = new URL("http://localhost:8080/RESTServer/transacao/addTransacao");
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("POST");
+
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept", "application/json");
+
+			con.setDoOutput(true);
+			con.setDoInput(true);
+
+			String postData = gson.toJson(new Transacao(data, valor, descricao), Transacao.class);
+
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr.writeBytes(postData);
+			wr.flush();
+			wr.close();
+
+			if (con.getResponseCode() < 200 && con.getResponseCode() > 299) {
+				throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+			} else {
+				System.out.println("Transacao "+descricao+" adicionada com sucesso!");
+			}
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
 
     /**
      * Obtém a lista de transações do sistema através de uma requisição HTTP GET.
@@ -870,32 +869,53 @@ public class ClientTestHttpURLConnection {
      *
      * @param meta O objeto Meta a ser adicionado.
      */
-    private static void addMeta(Meta meta) {
-        try {
-            // Criação da URL para a operação de adição de meta
-            URL url = new URL("http://localhost:8080/RESTServer/meta/addMeta");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
+    private static void addMeta(String descricao, double valor, String data, String nome) {
+		HttpURLConnection conn = null;
+		Gson gson = new Gson();
 
-            // Conversão do objeto Meta para formato JSON e envio da requisição
-            Gson gson = new Gson();
-            String postData = gson.toJson(meta, Meta.class);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postData);
-            wr.flush();
-            wr.close();
+		try {
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			URL url = new URL("http://localhost:8080/RESTServer/meta/addMeta");
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("POST");
+
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept", "application/json");
+
+			con.setDoOutput(true);
+			con.setDoInput(true);
+
+			String postData = gson.toJson(new Meta(descricao, valor, data, nome), Meta.class);
+
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr.writeBytes(postData);
+			wr.flush();
+			wr.close();
+
+			if (con.getResponseCode() < 200 && con.getResponseCode() > 299) {
+				throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+			} else {
+				System.out.println("Meta "+nome+" adicionada com sucesso!");
+			}
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
 
     /**
      * Obtém a lista de metas do sistema através de uma requisição HTTP GET.
@@ -922,10 +942,10 @@ public class ClientTestHttpURLConnection {
      *
      * @param nomeMeta O nome da meta desejada.
      */
-    private static void getMeta(String nomeMeta) {
+    private static void getMeta(String nome) {
         try {
             // Criação da URL para a operação de obtenção de uma meta específica
-            URL url = new URL("http://localhost:8080/RESTServer/meta/getMeta/" + nomeMeta);
+            URL url = new URL("http://localhost:8080/RESTServer/meta/getMeta/" + nome);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
