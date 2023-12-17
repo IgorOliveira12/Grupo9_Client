@@ -21,19 +21,18 @@ public class ClientTestHttpURLConnection {
         // Operações relacionadas a Orcamentos
     	
         // ORCAMENTO POR FAZER (ao criar orcamento, deletar tudo, guardar tudo no orcamento anterior!)
-        //getOrcamentos();
-        //addOrcamento(18000.0,"10/12/2022");
-        //adicionarOuReduzirValorOrcamento(500.0);
-        //imprimirHistoricoOrcamentos();
-        //mostrarStatusOrcamento();
-    	
-        //removeOrcamento(1000.0); talvez se use??
+    	//getOrcamentos();
+    	//addOrcamento("10/12/2022", 18000.0);
+    	//adicionarOuReduzirValorOrcamento(500.0); erro 500
+    	//imprimirHistoricoOrcamentos();
+    	//mostrarStatusOrcamento();
+
 
         // Operações relacionadas a Categorias (100% funcional)
-        //addCategoria("Caoo", 9000.0);
+        //addCategoria("Moradia", 9000.0);
         //alterarGastoMaximoCategoria("Moradia",3900.0);
         //deleteCategoria("Moradia");
-        //getCategoria("Educacao");
+        getCategoria("Educacao");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
         
         
@@ -50,7 +49,7 @@ public class ClientTestHttpURLConnection {
         // Operações relacionadas a Transacoes
         //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
         //getTransacoes();
-        getTransacao("Autocarro");
+        //getTransacao("Autocarro");
         //updateTransacao(new Transacao()); // Substitua pelo objeto Transacao real
         //removeTransacao("descricaoTransacao"); // Substitua pela descrição da transação a ser removida
         //alterarCategoriaTransacao("descricaoTransacao", "novaCategoria"); // Substitua pela descrição da transação e nova categoria
@@ -181,22 +180,46 @@ public class ClientTestHttpURLConnection {
      *
      * @param nomeCategoria O nome da categoria desejada.
      */
-    private static void getCategoria(String nomeCategoria) {
-        try {
-            // Criação da URL para a operação de obtenção de uma categoria específica
-            URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategoria/" + nomeCategoria);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Accept", "application/json");
+    private static void getCategoria(String nomeC) {
+		HttpURLConnection conn = null;
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+
+			URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategoria/" + nomeC);
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.connect();
+
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			Gson gson = new Gson();
+			Categoria c = gson.fromJson(br, Categoria.class);
+			System.out.println("Output JSON from Server .... \n");
+			System.out.println(c);
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
 
     /**
      * Altera o gasto máximo de uma categoria no sistema através de uma requisição HTTP PUT.
@@ -207,7 +230,7 @@ public class ClientTestHttpURLConnection {
     private static void alterarGastoMaximoCategoria(String nomeCategoria, double gastoMaximo) {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da categoria
-            URL url = new URL("http://localhost:8080/RESTServer/categoria/alterarGastoMaximoCategoria/"
+            URL url = new URL("http://localhost:8080/RESTServer/categoria/alterarGastoMaximo/"
                     + nomeCategoria + "/" + gastoMaximo);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
@@ -502,7 +525,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param orcamento O objeto Orcamento a ser adicionado.
      */
-    private static void addOrcamento(double valorAnual, String dataCriacao) {
+    private static void addOrcamento(String dataCriacao, double valorAnual) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -518,7 +541,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Orcamento(valorAnual, dataCriacao), Orcamento.class);
+			String postData = gson.toJson(new Orcamento(dataCriacao, valorAnual), Orcamento.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
@@ -885,7 +908,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Meta(descricao, valor, data, nome), Meta.class);
+			String postData = gson.toJson(new Meta(nome, descricao, valor, data), Meta.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
