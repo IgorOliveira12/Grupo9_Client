@@ -20,7 +20,7 @@ public class ClientTestHttpURLConnection {
     public static void main(String[] args) {
         // Operações relacionadas a Orcamentos
     	
-        // ORCAMENTO POR FAZER (ao criar orcamento, deletar tudo, guardar tudo no orcamento anterior!)
+        // 100% funcional
     	//getOrcamentos();
     	//addOrcamento("10/12/2022", 18000.0);
     	//adicionarOuReduzirValorOrcamento(500.0);
@@ -28,62 +28,51 @@ public class ClientTestHttpURLConnection {
     	//mostrarStatusOrcamento();
 
 
-        // Operações relacionadas a Categorias (100% funcional)
+        // 100% funcional
         //addCategoria("Moradia", 9000.0);
     	//getCategorias();
-        //alterarGastoMaximoCategoria("Moradia",3900.0);
+        //alterarGastoMaximoCategoria("Moradia",3890.0);
         //deleteCategoria("Moradia");
-        //getCategoria("Educacao");
+        //getCategoria("Moradia");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
         
         
-        // Operações relacionadas a Subcategorias
-        //addSubcategoria("Comida legumes",1000.0);
+        // 100% funcional
+        //addSubcategoria("Comidalegumes",1000.0);
         //getSubcategorias();
-        //getSubcategoria("Renda");
-        //alterarGastoMaximoSubcategoria("Renda", 2500.0);
-        //deleteSubcategoria("Pets");
+        //getSubcategoria("Refeicoes fora de casa");
+        //alterarGastoMaximoSubcategoria("Comidalegumes", 2500.0);
+        //deleteSubcategoria("Comidalegumes");
 
         
-        // Operações relacionadas a Transacoes
-        addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
+        // 100% funcional
+        //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
         //getTransacoes();
-        //getTransacao("Autocarro");
-        deleteTransacao("10/10/2005");
-        //alterarCategoriaTransacao("descricaoTransacao", "novaCategoria"); // Substitua pela descrição da transação e nova categoria
-        //alterarSubcategoriaTransacao("descricaoTransacao", "novaSubcategoria"); // Substitua pela descrição da transação e nova subcategoria
-        //alterarDataTransacao("descricaoTransacao", "novaData"); // Substitua pela descrição da transação e nova data
+        //getTransacao("Alimentacao"); 
+        //deleteTransacao("Alimentacao");
+        //alterarCategoriaTransacao("Alimentacao", "Transporte"); 
+        //alterarSubcategoriaTransacao("Autocarro", "Supermercado"); 
+        //alterarDataTransacao("Alimentacao", "10/10/2030");
 
-        // Operações relacionadas a Metas
-        //addMeta("Quero alcançar a Ferrari o mais rapido possivel",15000.0,"15/12/2026","Carro de sonho");
+        // 100% funcional
+        //addMeta("Carro de sonho",15000.0,"15/12/2026","Quero alcancar a Ferrari o mais rapido possivel");
         //getMetas();
         //getMeta("Carro");
-        //alterarValorMeta("nomeMeta", 1500.0); // Substitua pelo nome da meta e novo valor
-        //alterarPrazoMeta("nomeMeta", "novaData"); // Substitua pelo nome da meta e nova data
+        //alterarValorMeta("Carro", 15000.0);
+        //alterarPrazoMeta("Carro", "05/12/2028"); 
         //verificarMetasCumpridas();
         //listarMetasNaoCumpridas();
 
     }
     
-    public static String replaceSpaces(String input) {
-        String result = input.replaceAll(" ", "_");
-        return result;
+    public static String replaceS(String input) {
+        return input.replaceAll(" ", "_");
     }
     
-    public static String replaceUnderscores(String input) {
-        String result = input.replaceAll("_", " ");
-        return result;
+    public static String replaceDate(String input) {
+        return input.replaceAll("/", "_");
     }
-    
-    public static String replaceBar(String input) {
-        String result = input.replaceAll("/", "|");
-        return result;
-    }
-    
-    public static String replaceBarS(String input) {
-        String result = input.replaceAll("|", "/");
-        return result;
-    }
+
 
     /**
      * Adiciona uma nova categoria no sistema através de uma requisição HTTP POST.
@@ -104,7 +93,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Categoria(nomeC, gastoMaximo), Categoria.class);
+			String postData = gson.toJson(new Categoria(replaceS(nomeC), gastoMaximo), Categoria.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
@@ -141,7 +130,7 @@ public class ClientTestHttpURLConnection {
 
 		try {
 
-			URL url = new URL("http://localhost:8080/RESTServer/categoria/deleteCategoria/" + nomeC);
+			URL url = new URL("http://localhost:8080/RESTServer/categoria/deleteCategoria/" + replaceS(nomeC));
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("DELETE");
 
@@ -203,7 +192,7 @@ public class ClientTestHttpURLConnection {
 
 		try {
 
-			URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategoria/" + nomeC);
+			URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategoria/" + replaceS(nomeC));
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
@@ -249,7 +238,7 @@ public class ClientTestHttpURLConnection {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da categoria
             URL url = new URL("http://localhost:8080/RESTServer/categoria/alterarGastoMaximo/"
-                    + nomeCategoria + "/" + gastoMaximo);
+                    + replaceS(nomeCategoria) + "/" + gastoMaximo);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -300,7 +289,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Subcategoria(nomeSubc, gastoMaxSubc), Subcategoria.class);
+			String postData = gson.toJson(new Subcategoria(replaceS(nomeSubc), gastoMaxSubc), Subcategoria.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
@@ -350,28 +339,49 @@ public class ClientTestHttpURLConnection {
             e.printStackTrace();
         }
     }
+    
+    private static void getSubcategoria(String nomeSubc) {
+		HttpURLConnection conn = null;
 
-    /**
-     * Obtém uma subcategoria específica do sistema através de uma requisição HTTP GET.
-     *
-     * @param nomeSubcategoria O nome da subcategoria desejada.
-     */
-    private static void getSubcategoria(String nomeSubcategoria) {
-        try {
-            // Criação da URL para a operação de obtenção de uma subcategoria específica
-            URL url = new URL("http://localhost:8080/RESTServer/subcategoria/getSubcategoria/" + nomeSubcategoria);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Accept", "application/json");
+		try {
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+            URL url = new URL("http://localhost:8080/RESTServer/subcategoria/getSubcategoria/" + replaceS(nomeSubc));
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.connect();
+
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			Gson gson = new Gson();
+			Subcategoria s = gson.fromJson(br, Subcategoria.class);
+			System.out.println("Output JSON from Server .... \n");
+			System.out.println(s);
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
+    
+
 
     /**
      * Atualiza uma subcategoria no sistema através de uma requisição HTTP PUT.
@@ -418,7 +428,7 @@ public class ClientTestHttpURLConnection {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da subcategoria
             URL url = new URL("http://localhost:8080/RESTServer/subcategoria/alterarGastoMaximo/" +
-                    nomeSubcategoria + "/" + gastoMaximo);
+            		replaceS(nomeSubcategoria) + "/" + gastoMaximo);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -441,7 +451,7 @@ public class ClientTestHttpURLConnection {
 
 		try {
 
-			URL url = new URL("http://localhost:8080/RESTServer/subcategoria/deleteSubcategoria/" + nomeSubc);
+			URL url = new URL("http://localhost:8080/RESTServer/subcategoria/deleteSubcategoria/" + replaceS(nomeSubc));
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("DELETE");
 
@@ -713,7 +723,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Transacao(data, valor, descricao), Transacao.class);
+			String postData = gson.toJson(new Transacao(descricao, valor, data), Transacao.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
@@ -773,7 +783,7 @@ public class ClientTestHttpURLConnection {
     private static void getTransacao(String descricao) {
         try {
             // Criação da URL para a operação de obtenção de uma transação específica
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/getTransacao/" + descricao);
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/getTransacaoData/" + descricao);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
@@ -787,12 +797,12 @@ public class ClientTestHttpURLConnection {
         }
     }
     
-    private static void deleteTransacao(String data) {
+    private static void deleteTransacao(String descricao) {
 		HttpURLConnection conn = null;
 
 		try {
-
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/deleteTransacao/" + data);
+			
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/deleteTransacao/" + descricao);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("DELETE");
 
@@ -824,16 +834,10 @@ public class ClientTestHttpURLConnection {
 		}
 	}
 
-    /**
-     * Altera a categoria de uma transação no sistema através de uma requisição HTTP PUT.
-     *
-     * @param descricao      A descrição da transação a ser alterada.
-     * @param novaCategoria  A nova categoria da transação.
-     */
     private static void alterarCategoriaTransacao(String descricao, String novaCategoria) {
         try {
-            // Criação da URL para a operação de alteração de categoria de transação
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarCategoria/" + descricao + "/" + novaCategoria);
+            // Criação da URL para a operação de alteração de gasto máximo da subcategoria
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarCategoria/" + replaceS(descricao) + "/" + replaceS(novaCategoria));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -855,7 +859,7 @@ public class ClientTestHttpURLConnection {
     private static void alterarSubcategoriaTransacao(String descricao, String novaSubcategoria) {
         try {
             // Criação da URL para a operação de alteração de subcategoria de transação
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarSubcategoria/" + descricao + "/" + novaSubcategoria);
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarSubcategoria/" + replaceS(descricao) + "/" + replaceS(novaSubcategoria));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -877,7 +881,7 @@ public class ClientTestHttpURLConnection {
     private static void alterarDataTransacao(String descricao, String novaData) {
         try {
             // Criação da URL para a operação de alteração de data de transação
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarData/" + descricao + "/" + novaData);
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarData/" + replaceS(descricao) + "/" + replaceDate(novaData));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -895,7 +899,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param meta O objeto Meta a ser adicionado.
      */
-    private static void addMeta(String descricao, double valor, String data, String nome) {
+    private static void addMeta(String nome, double valor, String data, String descricao) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -911,7 +915,7 @@ public class ClientTestHttpURLConnection {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 
-			String postData = gson.toJson(new Meta(nome, descricao, valor, data), Meta.class);
+			String postData = gson.toJson(new Meta(replaceS(nome), descricao, valor, data), Meta.class);
 
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postData);
@@ -971,7 +975,7 @@ public class ClientTestHttpURLConnection {
     private static void getMeta(String nome) {
         try {
             // Criação da URL para a operação de obtenção de uma meta específica
-            URL url = new URL("http://localhost:8080/RESTServer/meta/getMeta/" + nome);
+            URL url = new URL("http://localhost:8080/RESTServer/meta/getMeta/" + replaceS(nome));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
@@ -995,7 +999,7 @@ public class ClientTestHttpURLConnection {
         try {
             // Criação da URL para a operação de alteração de valor de meta
             URL url = new URL("http://localhost:8080/RESTServer/meta/alterarValorMeta/" +
-                    nomeMeta + "/" + novoValor);
+            		replaceS(nomeMeta) + "/" + novoValor);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -1018,7 +1022,7 @@ public class ClientTestHttpURLConnection {
         try {
             // Criação da URL para a operação de alteração de prazo de meta
             URL url = new URL("http://localhost:8080/RESTServer/meta/alterarPrazoMeta/" +
-                    nomeMeta + "/" + novaData);
+            		replaceS(nomeMeta) + "/" + replaceDate(novaData));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
@@ -1069,12 +1073,6 @@ public class ClientTestHttpURLConnection {
         }
     }
 
-    /**
-     * Processa a resposta da requisição HTTP, exibindo a resposta ou o código de erro.
-     *
-     * @param con A conexão HttpURLConnection.
-     * @throws IOException Exceção de E/S.
-     */
     private static void handleResponse(HttpURLConnection con) throws IOException {
         int responseCode = con.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
