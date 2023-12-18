@@ -23,16 +23,17 @@ public class ClientTestHttpURLConnection {
         // ORCAMENTO POR FAZER (ao criar orcamento, deletar tudo, guardar tudo no orcamento anterior!)
     	//getOrcamentos();
     	//addOrcamento("10/12/2022", 18000.0);
-    	//adicionarOuReduzirValorOrcamento(500.0); erro 500
+    	//adicionarOuReduzirValorOrcamento(500.0);
     	//imprimirHistoricoOrcamentos();
     	//mostrarStatusOrcamento();
 
 
         // Operações relacionadas a Categorias (100% funcional)
         //addCategoria("Moradia", 9000.0);
+    	//getCategorias();
         //alterarGastoMaximoCategoria("Moradia",3900.0);
         //deleteCategoria("Moradia");
-        getCategoria("Educacao");
+        //getCategoria("Educacao");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
         
         
@@ -40,18 +41,15 @@ public class ClientTestHttpURLConnection {
         //addSubcategoria("Comida legumes",1000.0);
         //getSubcategorias();
         //getSubcategoria("Renda");
-        //updateSubcategoria();
         //alterarGastoMaximoSubcategoria("Renda", 2500.0);
         //deleteSubcategoria("Pets");
-        //calcularPercentagemGastos("nomeSubcategoria", 1200.0);
 
         
         // Operações relacionadas a Transacoes
-        //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
+        addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
         //getTransacoes();
         //getTransacao("Autocarro");
-        //updateTransacao(new Transacao()); // Substitua pelo objeto Transacao real
-        //removeTransacao("descricaoTransacao"); // Substitua pela descrição da transação a ser removida
+        deleteTransacao("10/10/2005");
         //alterarCategoriaTransacao("descricaoTransacao", "novaCategoria"); // Substitua pela descrição da transação e nova categoria
         //alterarSubcategoriaTransacao("descricaoTransacao", "novaSubcategoria"); // Substitua pela descrição da transação e nova subcategoria
         //alterarDataTransacao("descricaoTransacao", "novaData"); // Substitua pela descrição da transação e nova data
@@ -65,6 +63,26 @@ public class ClientTestHttpURLConnection {
         //verificarMetasCumpridas();
         //listarMetasNaoCumpridas();
 
+    }
+    
+    public static String replaceSpaces(String input) {
+        String result = input.replaceAll(" ", "_");
+        return result;
+    }
+    
+    public static String replaceUnderscores(String input) {
+        String result = input.replaceAll("_", " ");
+        return result;
+    }
+    
+    public static String replaceBar(String input) {
+        String result = input.replaceAll("/", "|");
+        return result;
+    }
+    
+    public static String replaceBarS(String input) {
+        String result = input.replaceAll("|", "/");
+        return result;
     }
 
     /**
@@ -461,11 +479,11 @@ public class ClientTestHttpURLConnection {
      * @param nomeSubcategoria O nome da subcategoria para a qual a percentagem de gastos será calculada.
      * @param gastosCategoria  O total de gastos da categoria à qual a subcategoria pertence.
      */
-    private static void calcularPercentagemGastos(String nomeSubcategoria, double gastosCategoria) {
+    private static void calcularPercentagemGastos(String nomeSubc, double gastosCategoria) {
         try {
             // Criação da URL para a operação de cálculo de percentagem de gastos
             URL url = new URL("http://localhost:8080/RESTServer/subcategoria/calcularPercentagemGastos/" +
-                    nomeSubcategoria + "/" + gastosCategoria);
+                    nomeSubc + "/" + gastosCategoria);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
@@ -593,6 +611,7 @@ public class ClientTestHttpURLConnection {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Obtém o último orçamento registrado no sistema através de uma requisição HTTP GET.
@@ -767,59 +786,43 @@ public class ClientTestHttpURLConnection {
             e.printStackTrace();
         }
     }
+    
+    private static void deleteTransacao(String data) {
+		HttpURLConnection conn = null;
 
-    /**
-     * Atualiza uma transação no sistema através de uma requisição HTTP PUT.
-     *
-     * @param transacao O objeto Transacao atualizado.
-     */
-    private static void updateTransacao(Transacao transacao) {
-        try {
-            // Criação da URL para a operação de atualização de transação
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/updateTransacao");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("PUT");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
+		try {
 
-            // Conversão do objeto Transacao atualizado para formato JSON e envio da requisição
-            Gson gson = new Gson();
-            String postData = gson.toJson(transacao, Transacao.class);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postData);
-            wr.flush();
-            wr.close();
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/deleteTransacao/" + data);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("DELETE");
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept", "application/json");
 
-    /**
-     * Remove uma transação do sistema através de uma requisição HTTP DELETE.
-     *
-     * @param descricao A descrição da transação a ser removida.
-     */
-    private static void removeTransacao(String descricao) {
-        try {
-            // Criação da URL para a operação de remoção de transação
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/removeTransacao/" + descricao);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("DELETE");
+			if (con.getResponseCode() < 200 && con.getResponseCode() > 299) {
+				throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+			} else {
+				System.out.print("removido!");
+			}
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
 
     /**
      * Altera a categoria de uma transação no sistema através de uma requisição HTTP PUT.
