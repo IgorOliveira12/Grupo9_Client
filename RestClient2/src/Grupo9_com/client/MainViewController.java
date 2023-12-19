@@ -108,14 +108,13 @@ public class MainViewController {
         String dataCriacao = dialog.showAndWait().orElse("");
         labelAddOrcamento.setText("Qual o seu valor anual desejado para o seu orcamento?");
         String valorAnualTemp = dialog.showAndWait().orElse("");
-        double valorAnual = 0;
         try {
-            valorAnual = Double.parseDouble(valorAnualTemp);
+            double valorAnual = Double.parseDouble(valorAnualTemp);
+            ClientTestHttpURLConnection.addOrcamento(dataCriacao, valorAnual);
         } catch (NumberFormatException e) {
             System.out.println("Não inseriu um Double!");
         }
         
-        ClientTestHttpURLConnection.addOrcamento(dataCriacao, valorAnual);
         labelAddOrcamento.setVisible(false);
     }
     
