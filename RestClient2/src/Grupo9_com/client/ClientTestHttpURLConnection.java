@@ -11,13 +11,25 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ClientTestHttpURLConnection {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
+
+public class ClientTestHttpURLConnection extends Application  {
 
     /**
      * Método principal que realiza chamadas aos diferentes métodos de teste da aplicação.
      * Cada chamada representa uma operação específica no sistema de Finanças Pessoais.
      */
     public static void main(String[] args) {
+    	launch(args);
+    	
+    	
         // Operações relacionadas a Orcamentos
     	
         // 100% funcional
@@ -27,7 +39,6 @@ public class ClientTestHttpURLConnection {
     	//imprimirHistoricoOrcamentos();
     	//mostrarStatusOrcamento();
 
-
         // 100% funcional
         //addCategoria("Moradia", 9000.0);
     	//getCategorias();
@@ -35,6 +46,7 @@ public class ClientTestHttpURLConnection {
         //deleteCategoria("Moradia");
         //getCategoria("Moradia");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
+    	//atribuirCategoriaNaSubcategoria("Alimentacao", "Refeicoes fora de casa");
         
         
         // 100% funcional
@@ -43,7 +55,6 @@ public class ClientTestHttpURLConnection {
         //getSubcategoria("Refeicoes fora de casa");
         //alterarGastoMaximoSubcategoria("Comidalegumes", 2500.0);
         //deleteSubcategoria("Comidalegumes");
-
         
         // 100% funcional
         //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
@@ -53,6 +64,10 @@ public class ClientTestHttpURLConnection {
         //alterarCategoriaTransacao("Alimentacao", "Transporte"); 
         //alterarSubcategoriaTransacao("Autocarro", "Supermercado"); 
         //alterarDataTransacao("Alimentacao", "10/10/2030");
+    	//atribuirTransacaoEmCategoria("Alimentacao", "Alimentacao");
+    	//atribuirTransacaoEmSubcategoria("Refeicoes fora de casa", "Gasto no Mcdonalds");
+    	// n funcional
+    	//atribuirTransacaoEmMeta("Capa para assento", "Gasto no Mcdonalds");
 
         // 100% funcional
         //addMeta("Carro de sonho",15000.0,"15/12/2026","Quero alcancar a Ferrari o mais rapido possivel");
@@ -70,14 +85,27 @@ public class ClientTestHttpURLConnection {
     }
     
     public static String replaceDate(String input) {
-        return input.replaceAll("/", "_");
+    	return input.replaceAll("/", "_");
     }
 
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Scene.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Home");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+        
+        
+    }
 
+    
+    
     /**
      * Adiciona uma nova categoria no sistema através de uma requisição HTTP POST.
      */
-    private static void addCategoria(String nomeC, double gastoMaximo) {
+    public static void addCategoria(String nomeC, double gastoMaximo) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -125,7 +153,7 @@ public class ClientTestHttpURLConnection {
 		}
 	}
     
-    private static void deleteCategoria(String nomeC) {
+    public static void deleteCategoria(String nomeC) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -164,8 +192,9 @@ public class ClientTestHttpURLConnection {
 
     /**
      * Obtém a lista de categorias do sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void getCategorias() {
+    public static String getCategorias() {
         try {
             // Criação da URL para a operação de obtenção de categorias
             URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategorias");
@@ -174,12 +203,13 @@ public class ClientTestHttpURLConnection {
             con.setRequestProperty("Accept", "application/json");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     /**
@@ -187,7 +217,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param nomeCategoria O nome da categoria desejada.
      */
-    private static void getCategoria(String nomeC) {
+    public static void getCategoria(String nomeC) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -234,7 +264,7 @@ public class ClientTestHttpURLConnection {
      * @param nomeCategoria O nome da categoria a ser alterada.
      * @param gastoMaximo   O novo valor máximo para a categoria.
      */
-    private static void alterarGastoMaximoCategoria(String nomeCategoria, double gastoMaximo) {
+    public static void alterarGastoMaximoCategoria(String nomeCategoria, double gastoMaximo) {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da categoria
             URL url = new URL("http://localhost:8080/RESTServer/categoria/alterarGastoMaximo/"
@@ -253,8 +283,9 @@ public class ClientTestHttpURLConnection {
 
     /**
      * Visualiza a percentagem de gastos por categoria no orçamento através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void visualizarPercentagemGastosPorCategoriaNoOrcamento() {
+    public static String visualizarPercentagemGastosPorCategoriaNoOrcamento() {
         try {
             // Criação da URL para a operação de visualização de percentagem de gastos por categoria
             URL url = new URL("http://localhost:8080/RESTServer/categoria/visualizarPercentagemGastosPorCategoriaNoOrcamento");
@@ -262,18 +293,19 @@ public class ClientTestHttpURLConnection {
             con.setRequestMethod("GET");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     /**
      * Adiciona uma nova subcategoria no sistema através de uma requisição HTTP POST.
      */
-    private static void addSubcategoria(String nomeSubc, double gastoMaxSubc) {
+    public static void addSubcategoria(String nomeSubc, double gastoMaxSubc) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -322,8 +354,9 @@ public class ClientTestHttpURLConnection {
 	}
     /**
      * Obtém a lista de subcategorias do sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void getSubcategorias() {
+    public static String getSubcategorias() {
         try {
             // Criação da URL para a operação de obtenção de subcategorias
             URL url = new URL("http://localhost:8080/RESTServer/subcategoria/getSubcategorias");
@@ -332,15 +365,16 @@ public class ClientTestHttpURLConnection {
             con.setRequestProperty("Accept", "application/json");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
     
-    private static void getSubcategoria(String nomeSubc) {
+    public static void getSubcategoria(String nomeSubc) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -380,43 +414,6 @@ public class ClientTestHttpURLConnection {
 			}
 		}
 	}
-    
-
-
-    /**
-     * Atualiza uma subcategoria no sistema através de uma requisição HTTP PUT.
-     */
-    private static void updateSubcategoria() {
-        try {
-            // Criação da URL para a operação de atualização de subcategoria
-            URL url = new URL("http://localhost:8080/RESTServer/subcategoria/updateSubcategoria");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("PUT");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
-
-            // Criação de uma subcategoria atualizada para substituir a existente
-            Gson gson = new Gson();
-            Subcategoria subcategoriaAtualizada = new Subcategoria();
-            subcategoriaAtualizada.setNomeSubc("Refeições fora de casa"); // Substitua pelo nome da subcategoria que você deseja atualizar
-            subcategoriaAtualizada.setGastoMaxSubc(1200.0); // Novo valor máximo para a subcategoria
-
-            // Conversão do objeto subcategoria atualizada para formato JSON e envio da requisição
-            String postData = gson.toJson(subcategoriaAtualizada, Subcategoria.class);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postData);
-            wr.flush();
-            wr.close();
-
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Altera o gasto máximo de uma subcategoria no sistema através de uma requisição HTTP PUT.
@@ -424,7 +421,7 @@ public class ClientTestHttpURLConnection {
      * @param nomeSubcategoria O nome da subcategoria a ser alterada.
      * @param gastoMaximo      O novo valor máximo para a subcategoria.
      */
-    private static void alterarGastoMaximoSubcategoria(String nomeSubcategoria, double gastoMaximo) {
+    public static void alterarGastoMaximoSubcategoria(String nomeSubcategoria, double gastoMaximo) {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da subcategoria
             URL url = new URL("http://localhost:8080/RESTServer/subcategoria/alterarGastoMaximo/" +
@@ -446,7 +443,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param nomeSubcategoria O nome da subcategoria a ser removida.
      */
-    private static void deleteSubcategoria(String nomeSubc) {
+    public static void deleteSubcategoria(String nomeSubc) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -482,6 +479,76 @@ public class ClientTestHttpURLConnection {
 			}
 		}
 	}
+    
+    public static void atribuirCategoriaNaSubcategoria(String nomeC, String nomeSubc) {
+        try {
+            // Criação da URL para a operação de alteração de gasto máximo da subcategoria
+            URL url = new URL("http://localhost:8080/RESTServer/subcategoria/atribuirCategoriaNaSubcategoria/" +
+            		replaceS(nomeC) + "/" + replaceS(nomeSubc));
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("PUT");
+
+            // Processa a resposta da requisição
+            handleResponse(con);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void atribuirTransacaoEmCategoria(String nomeC, String descricao) {
+        try {
+            // Criação da URL para a operação de alteração de gasto máximo da subcategoria
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/atribuirTransacaoEmCategoria/" +
+            		replaceS(nomeC) + "/" + replaceS(descricao));
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("PUT");
+
+            // Processa a resposta da requisição
+            handleResponse(con);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void atribuirTransacaoEmSubcategoria(String nomeSubc, String descricao) {
+        try {
+            // Criação da URL para a operação de alteração de gasto máximo da subcategoria
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/atribuirTransacaoEmSubcategoria/" +
+            		replaceS(nomeSubc) + "/" + replaceS(descricao));
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("PUT");
+
+            // Processa a resposta da requisição
+            handleResponse(con);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void atribuirTransacaoEmMeta(String nomeMeta, String descricao) {
+        try {
+            // Criação da URL para a operação de alteração de gasto máximo da subcategoria
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/atribuirTransacaoEmMeta/" +
+            		replaceS(nomeMeta) + "/" + replaceS(descricao));
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("PUT");
+
+            // Processa a resposta da requisição
+            handleResponse(con);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     /**
      * Calcula a percentagem de gastos para uma subcategoria específica em relação aos gastos totais da categoria,
      * através de uma requisição HTTP GET.
@@ -489,7 +556,7 @@ public class ClientTestHttpURLConnection {
      * @param nomeSubcategoria O nome da subcategoria para a qual a percentagem de gastos será calculada.
      * @param gastosCategoria  O total de gastos da categoria à qual a subcategoria pertence.
      */
-    private static void calcularPercentagemGastos(String nomeSubc, double gastosCategoria) {
+    public static void calcularPercentagemGastos(String nomeSubc, double gastosCategoria) {
         try {
             // Criação da URL para a operação de cálculo de percentagem de gastos
             URL url = new URL("http://localhost:8080/RESTServer/subcategoria/calcularPercentagemGastos/" +
@@ -509,7 +576,7 @@ public class ClientTestHttpURLConnection {
     /**
      * Obtém a lista de orçamentos do sistema através de uma requisição HTTP GET.
      */
-    private static void getOrcamentos() {
+    public static String getOrcamentos() {
         try {
             // Criação da URL para a operação de obtenção de orçamentos
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/getOrcamentos");
@@ -517,13 +584,16 @@ public class ClientTestHttpURLConnection {
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
 
-            // Processa a resposta da requisição
-            handleResponse(con);
+            // Processa a resposta da requisição e retorna como String
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Em caso de erro, você pode retornar null ou algum valor padrão, dependendo do seu caso.
+        return null;
     }
 
     /**
@@ -531,7 +601,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param valorAnual O valor anual do orçamento desejado.
      */
-    private static void getOrcamento(double valorAnual) {
+    public static void getOrcamento(double valorAnual) {
         try {
             // Criação da URL para a operação de obtenção de um orçamento específico
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/getOrcamento/" + valorAnual);
@@ -553,7 +623,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param orcamento O objeto Orcamento a ser adicionado.
      */
-    private static void addOrcamento(String dataCriacao, double valorAnual) {
+    public static void addOrcamento(String dataCriacao, double valorAnual) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -607,7 +677,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param valorAlteracao O valor a ser adicionado ou reduzido no orçamento atual.
      */
-    private static void adicionarOuReduzirValorOrcamento(double valorAlteracao) {
+    public static void adicionarOuReduzirValorOrcamento(double valorAlteracao) {
         try {
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/adicionarOuReduzirValorOrcamento/" + valorAlteracao);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -626,7 +696,7 @@ public class ClientTestHttpURLConnection {
     /**
      * Obtém o último orçamento registrado no sistema através de uma requisição HTTP GET.
      */
-    private static void obterUltimoOrcamento() {
+    public static void obterUltimoOrcamento() {
         try {
             // Criação da URL para a operação de obtenção do último orçamento
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/obterUltimoOrcamento");
@@ -646,7 +716,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param valorAnual O valor anual do orçamento a ser removido.
      */
-    private static void removeOrcamento(double valorAnual) {
+    public static void removeOrcamento(double valorAnual) {
         try {
             // Criação da URL para a operação de remoção de orçamento
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/removeOrcamento/" + valorAnual);
@@ -664,8 +734,9 @@ public class ClientTestHttpURLConnection {
 
     /**
      * Imprime o histórico de orçamentos do sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void imprimirHistoricoOrcamentos() {
+    public static String imprimirHistoricoOrcamentos() {
         try {
             // Criação da URL para a operação de impressão do histórico de orçamentos
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/imprimirHistoricoOrcamentos");
@@ -673,18 +744,20 @@ public class ClientTestHttpURLConnection {
             con.setRequestMethod("GET");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     /**
      * Mostra o status atual do orçamento através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void mostrarStatusOrcamento() {
+    public static String mostrarStatusOrcamento() {
         try {
             // Criação da URL para a operação de obtenção do status do orçamento
             URL url = new URL("http://localhost:8080/RESTServer/orcamento/mostrarStatusOrcamento");
@@ -692,12 +765,13 @@ public class ClientTestHttpURLConnection {
             con.setRequestMethod("GET");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     // ... Outros métodos existentes ...
@@ -707,7 +781,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param transacao O objeto Transacao a ser adicionado.
      */
-    private static void addTransacao(String data, double valor, String descricao) {
+    public static void addTransacao(String data, double valor, String descricao) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -757,8 +831,9 @@ public class ClientTestHttpURLConnection {
 
     /**
      * Obtém a lista de transações do sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void getTransacoes() {
+    public static String getTransacoes() {
         try {
             // Criação da URL para a operação de obtenção de transações
             URL url = new URL("http://localhost:8080/RESTServer/transacao/getTransacoes");
@@ -767,12 +842,13 @@ public class ClientTestHttpURLConnection {
             con.setRequestProperty("Accept", "application/json");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     /**
@@ -780,7 +856,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param descricao A descrição da transação desejada.
      */
-    private static void getTransacao(String descricao) {
+    public static void getTransacao(String descricao) {
         try {
             // Criação da URL para a operação de obtenção de uma transação específica
             URL url = new URL("http://localhost:8080/RESTServer/transacao/getTransacaoData/" + descricao);
@@ -797,7 +873,7 @@ public class ClientTestHttpURLConnection {
         }
     }
     
-    private static void deleteTransacao(String descricao) {
+    public static void deleteTransacao(String descricao) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -834,7 +910,7 @@ public class ClientTestHttpURLConnection {
 		}
 	}
 
-    private static void alterarCategoriaTransacao(String descricao, String novaCategoria) {
+    public static void alterarCategoriaTransacao(String descricao, String novaCategoria) {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da subcategoria
             URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarCategoria/" + replaceS(descricao) + "/" + replaceS(novaCategoria));
@@ -856,7 +932,7 @@ public class ClientTestHttpURLConnection {
      * @param descricao      A descrição da transação a ser alterada.
      * @param novaSubcategoria  A nova subcategoria da transação.
      */
-    private static void alterarSubcategoriaTransacao(String descricao, String novaSubcategoria) {
+    public static void alterarSubcategoriaTransacao(String descricao, String novaSubcategoria) {
         try {
             // Criação da URL para a operação de alteração de subcategoria de transação
             URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarSubcategoria/" + replaceS(descricao) + "/" + replaceS(novaSubcategoria));
@@ -878,7 +954,7 @@ public class ClientTestHttpURLConnection {
      * @param descricao      A descrição da transação a ser alterada.
      * @param novaData  A nova data da transação.
      */
-    private static void alterarDataTransacao(String descricao, String novaData) {
+    public static void alterarDataTransacao(String descricao, String novaData) {
         try {
             // Criação da URL para a operação de alteração de data de transação
             URL url = new URL("http://localhost:8080/RESTServer/transacao/alterarData/" + replaceS(descricao) + "/" + replaceDate(novaData));
@@ -899,7 +975,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param meta O objeto Meta a ser adicionado.
      */
-    private static void addMeta(String nome, double valor, String data, String descricao) {
+    public static void addMeta(String nome, double valor, String data, String descricao) {
 		HttpURLConnection conn = null;
 		Gson gson = new Gson();
 
@@ -949,8 +1025,9 @@ public class ClientTestHttpURLConnection {
 
     /**
      * Obtém a lista de metas do sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void getMetas() {
+    public static String getMetas() {
         try {
             // Criação da URL para a operação de obtenção de metas
             URL url = new URL("http://localhost:8080/RESTServer/meta/getMetas");
@@ -959,12 +1036,13 @@ public class ClientTestHttpURLConnection {
             con.setRequestProperty("Accept", "application/json");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     /**
@@ -972,7 +1050,7 @@ public class ClientTestHttpURLConnection {
      *
      * @param nomeMeta O nome da meta desejada.
      */
-    private static void getMeta(String nome) {
+    public static void getMeta(String nome) {
         try {
             // Criação da URL para a operação de obtenção de uma meta específica
             URL url = new URL("http://localhost:8080/RESTServer/meta/getMeta/" + replaceS(nome));
@@ -995,7 +1073,7 @@ public class ClientTestHttpURLConnection {
      * @param nomeMeta      O nome da meta a ser alterada.
      * @param novoValor  O novo valor da meta.
      */
-    private static void alterarValorMeta(String nomeMeta, double novoValor) {
+    public static void alterarValorMeta(String nomeMeta, double novoValor) {
         try {
             // Criação da URL para a operação de alteração de valor de meta
             URL url = new URL("http://localhost:8080/RESTServer/meta/alterarValorMeta/" +
@@ -1018,7 +1096,7 @@ public class ClientTestHttpURLConnection {
      * @param nomeMeta      O nome da meta a ser alterada.
      * @param novaData  A nova data da meta.
      */
-    private static void alterarPrazoMeta(String nomeMeta, String novaData) {
+    public static void alterarPrazoMeta(String nomeMeta, String novaData) {
         try {
             // Criação da URL para a operação de alteração de prazo de meta
             URL url = new URL("http://localhost:8080/RESTServer/meta/alterarPrazoMeta/" +
@@ -1037,8 +1115,9 @@ public class ClientTestHttpURLConnection {
 
     /**
      * Verifica as metas cumpridas no sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void verificarMetasCumpridas() {
+    public static String verificarMetasCumpridas() {
         try {
             // Criação da URL para a operação de verificação de metas cumpridas
             URL url = new URL("http://localhost:8080/RESTServer/meta/verificarMetasCumpridas");
@@ -1046,18 +1125,20 @@ public class ClientTestHttpURLConnection {
             con.setRequestMethod("GET");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
     /**
      * Lista as metas não cumpridas no sistema através de uma requisição HTTP GET.
+     * @return 
      */
-    private static void listarMetasNaoCumpridas() {
+    public static String listarMetasNaoCumpridas() {
         try {
             // Criação da URL para a operação de listagem de metas não cumpridas
             URL url = new URL("http://localhost:8080/RESTServer/meta/listarMetasNaoCumpridas");
@@ -1065,29 +1146,45 @@ public class ClientTestHttpURLConnection {
             con.setRequestMethod("GET");
 
             // Processa a resposta da requisição
-            handleResponse(con);
+            return handleResponse(con);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return null;
     }
 
-    private static void handleResponse(HttpURLConnection con) throws IOException {
+	/*
+	 * public static void handleResponse(HttpURLConnection con) throws IOException {
+	 * int responseCode = con.getResponseCode(); if (responseCode ==
+	 * HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED)
+	 * { BufferedReader in = new BufferedReader(new
+	 * InputStreamReader(con.getInputStream())); String inputLine; StringBuilder
+	 * response = new StringBuilder();
+	 * 
+	 * while ((inputLine = in.readLine()) != null) { response.append(inputLine); }
+	 * in.close();
+	 * 
+	 * System.out.println("Server Response:\n" + response.toString()); } else {
+	 * System.out.println("Failed : HTTP error code : " + responseCode); } }
+	 */
+    
+ // Método para processar a resposta e retornar como String
+    private static String handleResponse(HttpURLConnection con) throws IOException {
         int responseCode = con.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+        if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
-            StringBuilder response = new StringBuilder();
-
+            StringBuilder content = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                content.append(inputLine);
             }
             in.close();
-
-            System.out.println("Server Response:\n" + response.toString());
+            return content.toString();
         } else {
-            System.out.println("Failed : HTTP error code : " + responseCode);
+            // Se a resposta não for bem-sucedida, pode lançar uma exceção ou retornar um valor de erro
+            throw new IOException("Falha na requisição: " + responseCode);
         }
     }
 }
