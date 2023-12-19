@@ -27,7 +27,7 @@ public class ClientTestHttpURLConnection extends Application  {
      * Cada chamada representa uma operação específica no sistema de Finanças Pessoais.
      */
     public static void main(String[] args) {
-    	launch(args);
+    	//launch(args);
     	
     	
         // Operações relacionadas a Orcamentos
@@ -43,7 +43,7 @@ public class ClientTestHttpURLConnection extends Application  {
         //addCategoria("Moradia", 9000.0);
     	//getCategorias();
         //alterarGastoMaximoCategoria("Moradia",3890.0);
-        //deleteCategoria("Moradia");
+        //deleteCategoria("Alimentacao");
         //getCategoria("Moradia");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
     	//atribuirCategoriaNaSubcategoria("Alimentacao", "Refeicoes fora de casa");
@@ -64,8 +64,8 @@ public class ClientTestHttpURLConnection extends Application  {
         //alterarCategoriaTransacao("Alimentacao", "Transporte"); 
         //alterarSubcategoriaTransacao("Autocarro", "Supermercado"); 
         //alterarDataTransacao("Alimentacao", "10/10/2030");
-    	//atribuirTransacaoEmCategoria("Alimentacao", "Alimentacao");
-    	//atribuirTransacaoEmSubcategoria("Refeicoes fora de casa", "Gasto no Mcdonalds");
+    	atribuirTransacaoEmCategoria("Alimentacao 2", "Transporte");
+    	//atribuirTransacaoEmSubcategoria("Alimentacao", "Gasto no Mcdonalds");
     	// n funcional
     	//atribuirTransacaoEmMeta("Capa para assento", "Gasto no Mcdonalds");
 
@@ -216,8 +216,9 @@ public class ClientTestHttpURLConnection extends Application  {
      * Obtém uma categoria específica do sistema através de uma requisição HTTP GET.
      *
      * @param nomeCategoria O nome da categoria desejada.
+     * @return 
      */
-    public static void getCategoria(String nomeC) {
+    public static boolean getCategoria(String nomeC) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -238,6 +239,7 @@ public class ClientTestHttpURLConnection extends Application  {
 			Categoria c = gson.fromJson(br, Categoria.class);
 			System.out.println("Output JSON from Server .... \n");
 			System.out.println(c);
+			return c != null;
 
 		} catch (MalformedURLException e) {
 
@@ -256,6 +258,7 @@ public class ClientTestHttpURLConnection extends Application  {
 				}
 			}
 		}
+		return false;
 	}
 
     /**
@@ -600,23 +603,49 @@ public class ClientTestHttpURLConnection extends Application  {
      * Obtém um orçamento específico do sistema através de uma requisição HTTP GET.
      *
      * @param valorAnual O valor anual do orçamento desejado.
+     * @return 
      */
-    public static void getOrcamento(double valorAnual) {
-        try {
-            // Criação da URL para a operação de obtenção de um orçamento específico
-            URL url = new URL("http://localhost:8080/RESTServer/orcamento/getOrcamento/" + valorAnual);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Accept", "application/json");
+    public static boolean getOrcamento(String data) {
+		HttpURLConnection conn = null;
 
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+
+            URL url = new URL("http://localhost:8080/RESTServer/orcamento/getOrcamento/" + replaceDate(data));
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.connect();
+
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			Gson gson = new Gson();
+			Orcamento s = gson.fromJson(br, Orcamento.class);
+			System.out.println(s);
+			return s != null;
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
 
     /**
      * Adiciona um novo orçamento no sistema através de uma requisição HTTP POST.

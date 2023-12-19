@@ -14,11 +14,11 @@
                <children>
                   <Button fx:id="getOrcamentosButton" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetOrcamentos" text="Ver todos os Orçamentos" />
                   <Button fx:id="addOrcamentoButton" layoutX="12.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleAddOrcamento" text="Adicionar um Orçamento" />
-                  <Button layoutX="12.0" layoutY="63.0" mnemonicParsing="false" text="Adicionar ou reduzir valor no Orçamento atual" />
+                  <Button fx:id="addOuRemValorOrcamentoButton" layoutX="12.0" layoutY="63.0" mnemonicParsing="false" onAction="#handleaddOuRemValorOrcamento" text="Adicionar ou reduzir valor no Orçamento atual" />
                   <Button fx:id="getHistoricoPassadoButton" layoutX="12.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleGetHistoricoPassado" text="Imprimir o historico dos Orçamentos passados" />
                   <Button fx:id="getEstadoAtualButton" layoutX="13.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleGetEstadoAtual" text="Mostrar o estado do Orçamento atual" />
                   <Label fx:id="labelOrcamentos" alignment="TOP_LEFT" layoutX="7.0" layoutY="144.0" prefHeight="710.0" prefWidth="1219.0" wrapText="true" />
-                  <Label fx:id="labelAddOrcamento" alignment="TOP_LEFT" layoutX="294.0" layoutY="12.0" prefHeight="119.0" prefWidth="690.0" wrapText="true" />
+                  <Label fx:id="labelAddOrcamento" alignment="TOP_LEFT" layoutX="294.0" layoutY="12.0" prefHeight="119.0" prefWidth="930.0" wrapText="true" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -26,12 +26,13 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getCategoriasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetCategorias" text="Ver todas as Categorias" />
-                  <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Categoria" />
+                  <Button fx:id="getCategoriasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetCategorias" text="Ver todas as Categorias do Orcamento atual" />
+                  <Button fx:id="addCategoriaButton" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleAddCategoria" text="Adicionar uma Categoria" />
                   <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar o gasto máximo de uma Categoria" />
-                  <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Categoria" />
+                  <Button fx:id="removeCategoriaButton" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleRemoveCategoria" text="Remover uma Categoria" />
                   <Button fx:id="getListaGastosCatButton" layoutX="14.0" layoutY="114.0" mnemonicParsing="false" onAction="#handleGetListaGastosCat" text="Visualizar a %% de gastos de cada Categoria no Orcamento atual" />
                   <Label fx:id="labelCategorias" alignment="TOP_LEFT" layoutX="14.0" layoutY="152.0" prefHeight="701.0" prefWidth="1214.0" wrapText="true" />
+                  <Label fx:id="labelAddCategoria" alignment="TOP_LEFT" layoutX="392.0" layoutY="18.0" prefHeight="116.0" prefWidth="821.0" wrapText="true" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -39,7 +40,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getSubcategoriasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetSubcategorias" text="Ver todas as Subcategorias" />
+                  <Button fx:id="getSubcategoriasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetSubcategorias" text="Ver todas as Subcategorias do Orcamento atual" />
                   <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Subcategoria" />
                   <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Subcategoria" />
                   <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar o gasto máximo de uma Subcategoria" />
@@ -52,7 +53,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getMetasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetMetas" text="Ver todas as Metas" />
+                  <Button fx:id="getMetasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetMetas" text="Ver todas as Metas do Orcamento atual" />
                   <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Meta" />
                   <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Meta" />
                   <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar o valor atribuido à Meta" />
@@ -68,7 +69,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getTransacoesButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetTransacoes" text="Listar todas as Transações" />
+                  <Button fx:id="getTransacoesButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetTransacoes" text="Listar todas as Transações do Orcamento atual" />
                   <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Transação" />
                   <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Transação" />
                   <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar a Categoria da Transação" />
