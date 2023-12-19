@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <TabPane prefHeight="893.0" prefWidth="1240.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Grupo9_com.client.MainViewController">
   <tabs>
@@ -12,13 +13,35 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="690.0" prefWidth="1212.0">
                <children>
-                  <Button fx:id="getOrcamentosButton" layoutX="12.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetOrcamentos" text="Ver todos os Orçamentos" />
-                  <Button fx:id="addOrcamentoButton" layoutX="12.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleAddOrcamento" text="Adicionar um Orçamento" />
-                  <Button fx:id="addOuRemValorOrcamentoButton" layoutX="12.0" layoutY="63.0" mnemonicParsing="false" onAction="#handleaddOuRemValorOrcamento" text="Adicionar ou reduzir valor no Orçamento atual" />
-                  <Button fx:id="getHistoricoPassadoButton" layoutX="12.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleGetHistoricoPassado" text="Imprimir o historico dos Orçamentos passados" />
-                  <Button fx:id="getEstadoAtualButton" layoutX="13.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleGetEstadoAtual" text="Mostrar o estado do Orçamento atual" />
-                  <Label fx:id="labelOrcamentos" alignment="TOP_LEFT" layoutX="7.0" layoutY="144.0" prefHeight="710.0" prefWidth="1219.0" wrapText="true" />
-                  <Label fx:id="labelAddOrcamento" alignment="TOP_LEFT" layoutX="294.0" layoutY="12.0" prefHeight="119.0" prefWidth="930.0" wrapText="true" />
+                  <Button fx:id="getOrcamentosButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetOrcamentos" text="Ver todos os Orçamentos">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="addOrcamentoButton" layoutX="15.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleAddOrcamento" text="Adicionar um Orçamento">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="addOuRemValorOrcamentoButton" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleAddOuRemValorOrcamento" text="Adicionar ou reduzir valor no Orçamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="getHistoricoPassadoButton" layoutX="14.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleGetHistoricoPassado" text="Imprimir o historico dos Orçamentos passados">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="getEstadoAtualButton" layoutX="14.0" layoutY="134.0" mnemonicParsing="false" onAction="#handleGetEstadoAtual" text="Mostrar o estado do Orçamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Label fx:id="labelAddOrcamento" alignment="TOP_LEFT" layoutX="327.0" layoutY="12.0" prefHeight="143.0" prefWidth="897.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label fx:id="labelOrcamentos" alignment="TOP_LEFT" layoutX="15.0" layoutY="174.0" prefHeight="680.0" prefWidth="1212.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
       </content>
     </Tab>
@@ -26,13 +49,39 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getCategoriasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetCategorias" text="Ver todas as Categorias do Orcamento atual" />
-                  <Button fx:id="addCategoriaButton" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleAddCategoria" text="Adicionar uma Categoria" />
-                  <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar o gasto máximo de uma Categoria" />
-                  <Button fx:id="removeCategoriaButton" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleRemoveCategoria" text="Remover uma Categoria" />
-                  <Button fx:id="getListaGastosCatButton" layoutX="14.0" layoutY="114.0" mnemonicParsing="false" onAction="#handleGetListaGastosCat" text="Visualizar a %% de gastos de cada Categoria no Orcamento atual" />
-                  <Label fx:id="labelCategorias" alignment="TOP_LEFT" layoutX="14.0" layoutY="152.0" prefHeight="701.0" prefWidth="1214.0" wrapText="true" />
-                  <Label fx:id="labelAddCategoria" alignment="TOP_LEFT" layoutX="392.0" layoutY="18.0" prefHeight="116.0" prefWidth="821.0" wrapText="true" />
+                  <Button fx:id="getCategoriasButton" layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleGetCategorias" text="Ver todas as Categorias do Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="addCategoriaButton" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleAddCategoria" text="Adicionar uma Categoria">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="alterarGastoMaximoCatButton" layoutX="13.0" layoutY="134.0" mnemonicParsing="false" onAction="#handleAlterarGastoMaximoCat" text="Alterar o gasto máximo de uma Categoria">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="removeCategoriaButton" layoutX="14.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleRemoveCategoria" prefHeight="30.0" prefWidth="171.0" text="Remover uma Categoria">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="getListaGastosCatButton" layoutX="14.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleGetListaGastosCat" text="Visualizar a %% de gastos de cada Categoria no Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Label fx:id="labelCategorias" alignment="TOP_LEFT" layoutX="13.0" layoutY="202.0" prefHeight="648.0" prefWidth="1214.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label fx:id="labelAddCategoria" alignment="TOP_LEFT" layoutX="453.0" layoutY="18.0" prefHeight="167.0" prefWidth="760.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Button fx:id="getAllCategoriasButton" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetAllCategorias" text="Ver todas as Categorias">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>
@@ -40,11 +89,36 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getSubcategoriasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetSubcategorias" text="Ver todas as Subcategorias do Orcamento atual" />
-                  <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Subcategoria" />
-                  <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Subcategoria" />
-                  <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar o gasto máximo de uma Subcategoria" />
-                  <Label fx:id="labelSubcategorias" alignment="TOP_LEFT" layoutX="14.0" layoutY="121.0" prefHeight="730.0" prefWidth="1210.0" wrapText="true" />
+                  <Button fx:id="getSubcategoriasButton" layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleGetSubcategorias" text="Ver todas as Subcategorias do Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="addSubcategoriaButton" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleAddSubcategorias" text="Adicionar uma Subcategoria">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="removeSubcategoriaButton" layoutX="14.0" layoutY="103.0" mnemonicParsing="false" onAction="#handleRemoveSubcategoria" text="Remover uma Subcategoria">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="alterarGastoMaxSubcButton" layoutX="14.0" layoutY="133.0" mnemonicParsing="false" onAction="#handleAlterarGastoMaxSubc" text="Alterar o gasto máximo de uma Subcategoria">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Label fx:id="labelSubcategorias" alignment="TOP_LEFT" layoutX="14.0" layoutY="171.0" prefHeight="680.0" prefWidth="1210.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label fx:id="labelAddSubcategoria" alignment="TOP_LEFT" layoutX="342.0" layoutY="14.0" prefHeight="145.0" prefWidth="867.0" wrapText="true" AnchorPane.topAnchor="14.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="getSubcategoriasButton1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetSubcategorias" text="Ver todas as Subcategorias">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </content>
@@ -53,14 +127,49 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getMetasButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetMetas" text="Ver todas as Metas do Orcamento atual" />
-                  <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Meta" />
-                  <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Meta" />
-                  <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar o valor atribuido à Meta" />
-                  <Button layoutX="14.0" layoutY="114.0" mnemonicParsing="false" text="Alterar o prazo atribuido à Meta" />
-                  <Button fx:id="getMetasCumpridasButton" layoutX="14.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleGetMetasCumpridas" text="Listar todas as Metas cumpridas no Orcamento atual" />
-                  <Button fx:id="getMetasNCumpridasButton" layoutX="14.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleGetMetasNCumpridas" text="Listar todas as Metas não cumpridas no Orcamento atual" />
-                  <Label fx:id="labelMetas" alignment="TOP_LEFT" layoutX="14.0" layoutY="199.0" prefHeight="655.0" prefWidth="1212.0" wrapText="true" />
+                  <Label fx:id="labelAddMeta" alignment="TOP_LEFT" layoutX="404.0" layoutY="14.0" prefHeight="234.0" prefWidth="813.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="getMetasButton" layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleGetMetas" text="Ver todas as Metas do Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="addMetaButton" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleAddMeta" text="Adicionar uma Meta">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="removeMetaButton" layoutX="15.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleRemoveMeta" prefHeight="30.0" prefWidth="141.0" text="Remover uma Meta">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="134.0" mnemonicParsing="false" text="Alterar o valor atribuido à Meta">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="15.0" layoutY="164.0" mnemonicParsing="false" text="Alterar o prazo atribuido à Meta">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="getMetasCumpridasButton" layoutX="15.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleGetMetasCumpridas" text="Listar todas as Metas cumpridas no Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="getMetasNCumpridasButton" layoutX="15.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleGetMetasNCumpridas" text="Listar todas as Metas não cumpridas no Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button fx:id="getMetasButton1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetMetas" text="Ver todas as Metas">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="labelMetas" alignment="TOP_LEFT" layoutX="15.0" layoutY="263.0" prefHeight="591.0" prefWidth="1204.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </content>
@@ -69,14 +178,43 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="getTransacoesButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetTransacoes" text="Listar todas as Transações do Orcamento atual" />
-                  <Button layoutX="14.0" layoutY="39.0" mnemonicParsing="false" text="Adicionar uma Transação" />
-                  <Button layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Remover uma Transação" />
-                  <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" text="Alterar a Categoria da Transação" />
-                  <Button layoutX="14.0" layoutY="114.0" mnemonicParsing="false" text="Alterar a Subcategoria da Transação" />
-                  <Button layoutX="14.0" layoutY="139.0" mnemonicParsing="false" text="Alterar a Meta da Transação" />
-                  <Button layoutX="14.0" layoutY="164.0" mnemonicParsing="false" text="Alterar a Data associada à Transação" />
-                  <Label fx:id="labelTransacoes" alignment="TOP_LEFT" layoutX="14.0" layoutY="198.0" prefHeight="656.0" prefWidth="1219.0" wrapText="true" />
+                  <Button fx:id="getTransacoesButton" layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleGetTransacoes" text="Listar todas as Transações do Orcamento atual">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="74.0" mnemonicParsing="false" text="Adicionar uma Transação">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="104.0" mnemonicParsing="false" text="Remover uma Transação">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="134.0" mnemonicParsing="false" text="Alterar a Categoria da Transação">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="164.0" mnemonicParsing="false" text="Alterar a Subcategoria da Transação">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="194.0" mnemonicParsing="false" text="Alterar a Meta da Transação">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Button layoutX="14.0" layoutY="224.0" mnemonicParsing="false" text="Alterar a Data associada à Transação">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
+                  <Label fx:id="labelTransacoes" alignment="TOP_LEFT" layoutX="14.0" layoutY="258.0" prefHeight="596.0" prefWidth="1219.0" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Button fx:id="getTransacoesButton1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleGetTransacoes" text="Listar todas as Transações">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </content>

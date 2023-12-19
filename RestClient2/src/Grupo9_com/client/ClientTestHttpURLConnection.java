@@ -27,7 +27,7 @@ public class ClientTestHttpURLConnection extends Application  {
      * Cada chamada representa uma operação específica no sistema de Finanças Pessoais.
      */
     public static void main(String[] args) {
-    	//launch(args);
+    	launch(args);
     	
     	
         // Operações relacionadas a Orcamentos
@@ -43,11 +43,11 @@ public class ClientTestHttpURLConnection extends Application  {
         //addCategoria("Moradia", 9000.0);
     	//getCategorias();
         //alterarGastoMaximoCategoria("Moradia",3890.0);
-        //deleteCategoria("Alimentacao");
+        //deleteCategoria("Moradia");
         //getCategoria("Moradia");
         //visualizarPercentagemGastosPorCategoriaNoOrcamento();
-    	//atribuirCategoriaNaSubcategoria("Alimentacao", "Refeicoes fora de casa");
-        
+        //addSubcategoria("ComidaLegumes",1000.0);
+    	//atribuirCategoriaNaSubcategoria("Moradia", "ComidaLegumes");
         
         // 100% funcional
         //addSubcategoria("Comidalegumes",1000.0);
@@ -57,17 +57,16 @@ public class ClientTestHttpURLConnection extends Application  {
         //deleteSubcategoria("Comidalegumes");
         
         // 100% funcional
-        //addTransacao("10/10/2005", 100.0, "Pagar comida ao cao");
+        //addTransacao("10/10/2005", 100.0, "RefeicoesForaDeCasa");
         //getTransacoes();
         //getTransacao("Alimentacao"); 
         //deleteTransacao("Alimentacao");
         //alterarCategoriaTransacao("Alimentacao", "Transporte"); 
         //alterarSubcategoriaTransacao("Autocarro", "Supermercado"); 
         //alterarDataTransacao("Alimentacao", "10/10/2030");
-    	atribuirTransacaoEmCategoria("Alimentacao 2", "Transporte");
-    	//atribuirTransacaoEmSubcategoria("Alimentacao", "Gasto no Mcdonalds");
-    	// n funcional
-    	//atribuirTransacaoEmMeta("Capa para assento", "Gasto no Mcdonalds");
+    	//atribuirTransacaoEmCategoria("Alimentacao", "Alimentacao");
+    	//atribuirTransacaoEmSubcategoria("RefeicoesForaDeCasa", "GastoNoMcdonalds");
+    	//atribuirTransacaoEmMeta("CapaParaAssento", "PoupancaParaKitDeAssentos");
 
         // 100% funcional
         //addMeta("Carro de sonho",15000.0,"15/12/2026","Quero alcancar a Ferrari o mais rapido possivel");
@@ -189,6 +188,43 @@ public class ClientTestHttpURLConnection extends Application  {
 			}
 		}
 	}
+    
+    public static void deleteMeta(String nomeMeta) {
+		HttpURLConnection conn = null;
+
+		try {
+
+			URL url = new URL("http://localhost:8080/RESTServer/meta/deleteMeta/" + replaceS(nomeMeta));
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("DELETE");
+
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept", "application/json");
+
+			if (con.getResponseCode() < 200 && con.getResponseCode() > 299) {
+				throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+			} else {
+				System.out.print("removido!");
+			}
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.disconnect();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
 
     /**
      * Obtém a lista de categorias do sistema através de uma requisição HTTP GET.
@@ -198,6 +234,24 @@ public class ClientTestHttpURLConnection extends Application  {
         try {
             // Criação da URL para a operação de obtenção de categorias
             URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategorias");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Accept", "application/json");
+
+            // Processa a resposta da requisição
+            return handleResponse(con);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return null;
+    }
+    
+    public static String getAllCategorias() {
+        try {
+            // Criação da URL para a operação de obtenção de categorias
+            URL url = new URL("http://localhost:8080/RESTServer/categoria/getAllCategorias");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
@@ -377,7 +431,7 @@ public class ClientTestHttpURLConnection extends Application  {
 		return null;
     }
     
-    public static void getSubcategoria(String nomeSubc) {
+    public static boolean getSubcategoria(String nomeSubc) {
 		HttpURLConnection conn = null;
 
 		try {
@@ -397,7 +451,7 @@ public class ClientTestHttpURLConnection extends Application  {
 			Gson gson = new Gson();
 			Subcategoria s = gson.fromJson(br, Subcategoria.class);
 			System.out.println("Output JSON from Server .... \n");
-			System.out.println(s);
+			return s != null;
 
 		} catch (MalformedURLException e) {
 
@@ -416,6 +470,7 @@ public class ClientTestHttpURLConnection extends Application  {
 				}
 			}
 		}
+		return false;
 	}
 
     /**
@@ -551,7 +606,6 @@ public class ClientTestHttpURLConnection extends Application  {
         }
     }
     
-    
     /**
      * Calcula a percentagem de gastos para uma subcategoria específica em relação aos gastos totais da categoria,
      * através de uma requisição HTTP GET.
@@ -602,50 +656,27 @@ public class ClientTestHttpURLConnection extends Application  {
     /**
      * Obtém um orçamento específico do sistema através de uma requisição HTTP GET.
      *
-     * @param valorAnual O valor anual do orçamento desejado.
+     * @param dataCriacao O valor anual do orçamento desejado.
      * @return 
      */
-    public static boolean getOrcamento(String data) {
-		HttpURLConnection conn = null;
+    public static boolean getOrcamento(String dataCriacao) {
+        try {
+            // Criação da URL para a operação de obtenção de um orçamento específico
+            URL url = new URL("http://localhost:8080/RESTServer/orcamento/getOrcamento/" + dataCriacao);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Accept", "application/json");
 
-		try {
-
-            URL url = new URL("http://localhost:8080/RESTServer/orcamento/getOrcamento/" + replaceDate(data));
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "application/json");
-			conn.connect();
-
-			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-			}
-
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-
-			Gson gson = new Gson();
-			Orcamento s = gson.fromJson(br, Orcamento.class);
-			System.out.println(s);
-			return s != null;
-
-		} catch (MalformedURLException e) {
-
-			e.printStackTrace();
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		} finally {
-			if (conn != null) {
-				try {
-					conn.disconnect();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+            // Processa a resposta da requisição
+            handleResponse(con);
+            return con != null;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		return false;
-	}
+    }
 
     /**
      * Adiciona um novo orçamento no sistema através de uma requisição HTTP POST.
@@ -739,27 +770,7 @@ public class ClientTestHttpURLConnection extends Application  {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    /**
-     * Remove um orçamento do sistema através de uma requisição HTTP DELETE.
-     *
-     * @param valorAnual O valor anual do orçamento a ser removido.
-     */
-    public static void removeOrcamento(double valorAnual) {
-        try {
-            // Criação da URL para a operação de remoção de orçamento
-            URL url = new URL("http://localhost:8080/RESTServer/orcamento/removeOrcamento/" + valorAnual);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("DELETE");
-
-            // Processa a resposta da requisição
-            handleResponse(con);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    }   
 
     /**
      * Imprime o histórico de orçamentos do sistema através de uma requisição HTTP GET.
@@ -1078,8 +1089,9 @@ public class ClientTestHttpURLConnection extends Application  {
      * Obtém uma meta específica do sistema através de uma requisição HTTP GET.
      *
      * @param nomeMeta O nome da meta desejada.
+     * @return 
      */
-    public static void getMeta(String nome) {
+    public static boolean getMeta(String nome) {
         try {
             // Criação da URL para a operação de obtenção de uma meta específica
             URL url = new URL("http://localhost:8080/RESTServer/meta/getMeta/" + replaceS(nome));
@@ -1089,11 +1101,13 @@ public class ClientTestHttpURLConnection extends Application  {
 
             // Processa a resposta da requisição
             handleResponse(con);
+            return con != null;
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+		return false;
     }
 
     /**
