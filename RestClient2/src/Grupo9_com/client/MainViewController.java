@@ -200,14 +200,15 @@ public class MainViewController {
         if (dataCriacao != null) {
 
             Double valorAnual = pedirDouble("Qual o seu valor anual desejado para o seu orcamento?", labelAddOrcamento);
-            if (valorAnual < 0) {
+            if (valorAnual <= 0) {
+            	labelAddSubcategoria.setText("Valor anual não pode ser negativo!");
+            	return;
+            }
             if (valorAnual != null) {
                 ClientTestHttpURLConnection.addOrcamento(dataCriacao, valorAnual);
                 labelAddOrcamento.setText("Adição concluída!");
             }
-            } else {
-            	labelAddSubcategoria.setText("Valor anual não pode ser negativo!");
-            }
+            
         }
     }
 
@@ -367,7 +368,7 @@ public class MainViewController {
     @FXML
     private void handleGetAllSubcategorias() {
         // Lógica para obter as categorias
-        String subcategoriasString = ClientTestHttpURLConnection.getAllCategorias();
+        String subcategoriasString = ClientTestHttpURLConnection.getAllSubcategorias();
 
         // Configurar o texto do Label com as categorias
         labelSubcategorias.setText(subcategoriasString);
@@ -383,8 +384,8 @@ public class MainViewController {
 
         if (nomeSubc != null) {
             // Verificar se o orçamento já existe para a data fornecida
-            if (ClientTestHttpURLConnection.getCategoria(nomeSubc)) {
-            	labelAddSubcategoria.setText("Já existe uma Categoria com esse nome!");
+            if (ClientTestHttpURLConnection.getSubcategoria(nomeSubc)) {
+            	labelAddSubcategoria.setText("Já existe uma Subcategoria com esse nome!");
                 return; // Não permitir a adição se já existe um orçamento
             }
 
@@ -393,7 +394,7 @@ public class MainViewController {
             	labelAddSubcategoria.setText("Gasto máximo não pode ser negativo!");
             	return;
             }
-            String nomeC = pedirString("Qual a nome da Categoria onde a Subcategoria vai pertencer?", labelAddSubcategoria);
+            String nomeC = pedirString("Qual o nome da Categoria onde a Subcategoria vai pertencer?", labelAddSubcategoria);
             if (nomeC != null) {
 	            if (!ClientTestHttpURLConnection.getCategoria(nomeC)) {
 	            	labelAddSubcategoria.setText("Nao foi encontrada nenhuma Categoria com esse nome!");
@@ -481,12 +482,12 @@ public class MainViewController {
 
         if (nomeMeta != null) {
             
-            if (ClientTestHttpURLConnection.getCategoria(nomeMeta)) {
-            	labelAddMeta.setText("Já existe uma Categoria com esse nome!");
-                return; 
-            }
+//            if (ClientTestHttpURLConnection.getMeta(nomeMeta)) {
+//            	labelAddMeta.setText("Já existe uma Meta com esse nome!");
+//                return; 
+//            }
 
-            String descricaoMeta = pedirString("Qual a descrição da sua meta?", labelAddMeta);
+            String descricaoMeta = pedirString("Qual a descrição da sua Meta?", labelAddMeta);
             
             if (descricaoMeta != null) {
             
@@ -649,7 +650,7 @@ public class MainViewController {
 	            			String categoria = pedirString("Qual o nome da Categoria onde deseja adicionar?", labelAddTransacao);
 	            			if (ClientTestHttpURLConnection.getCategoria(categoria)) {
 			    	            ClientTestHttpURLConnection.addTransacao(descricao, valor, data);
-			    	            ClientTestHttpURLConnection.atribuirTransacaoEmCategoria(categoria, descricao);
+			    	            ClientTestHttpURLConnection.atribuirCategoriaNaTransacao(data, descricao);
 			    	            labelAddTransacao.setText("Adição concluída!");
 	            			}
 	            			else labelAddTransacao.setText("Essa Categoria não existe!");
@@ -658,7 +659,7 @@ public class MainViewController {
 	            			String subcategoria = pedirString("Qual o nome da Subcategoria onde deseja adicionar?", labelAddTransacao);
 	            			if (ClientTestHttpURLConnection.getSubcategoria(subcategoria)) {
 			    	            ClientTestHttpURLConnection.addTransacao(descricao, valor, data);
-			    	            ClientTestHttpURLConnection.atribuirTransacaoEmCategoria(subcategoria, descricao);
+			    	            ClientTestHttpURLConnection.atribuirTransacaoEmSubcategoria(data, descricao);
 			    	            labelAddTransacao.setText("Adição concluída!");
 	            			}
 	            			else labelAddTransacao.setText("Essa Subcategoria não existe!");
@@ -667,7 +668,7 @@ public class MainViewController {
 	            			String meta = pedirString("Qual o nome da Meta onde deseja adicionar?", labelAddTransacao);
 	            			if (ClientTestHttpURLConnection.getMeta(meta))  {
 			    	            ClientTestHttpURLConnection.addTransacao(descricao, valor, data);
-			    	            ClientTestHttpURLConnection.atribuirTransacaoEmCategoria(meta, descricao);
+			    	            ClientTestHttpURLConnection.atribuirTransacaoEmMeta(meta, descricao);
 			    	            labelAddTransacao.setText("Adição concluída!");
 	            			}
 	            			else labelAddTransacao.setText("Essa Meta não existe!");

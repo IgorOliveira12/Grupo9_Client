@@ -26,9 +26,16 @@ public class ClientTestHttpURLConnection extends Application  {
      * Método principal que realiza chamadas aos diferentes métodos de teste da aplicação.
      * Cada chamada representa uma operação específica no sistema de Finanças Pessoais.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) {  	
     	launch(args);
-
+    	
+//    	getSubcategoria("Moradia");
+//    	getMeta("Carro");
+    	//addTransacao("10-10-1000", 10.0, "PagamentoDeFino");
+    	//atribuirCategoriaNaSubcategoria(STYLESHEET_MODENA, STYLESHEET_CASPIAN);
+    	//atribuirCategoriaNaTransacao("Moradia", "PagamentoDeFino");
+    	//atribuirTransacaoEmMeta("Carro", "PagamentoDeFino");
+    	
     }
 
     @Override
@@ -179,7 +186,7 @@ public class ClientTestHttpURLConnection extends Application  {
             // Criação da URL para a operação de obtenção de categorias
             URL url = new URL("http://localhost:8080/RESTServer/categoria/getCategorias");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            con.setRequestMethod("");
             con.setRequestProperty("Accept", "application/json");
 
             // Processa a resposta da requisição
@@ -635,11 +642,11 @@ public class ClientTestHttpURLConnection extends Application  {
         }
     }
     
-    public static void atribuirTransacaoEmCategoria(String nomeC, String descricao) {
+    public static void atribuirCategoriaNaTransacao(String nomeC, String desc) {
         try {
             // Criação da URL para a operação de alteração de gasto máximo da subcategoria
-            URL url = new URL("http://localhost:8080/RESTServer/transacao/atribuirTransacaoEmCategoria/" +
-            		(nomeC) + "/" + (descricao));
+            URL url = new URL("http://localhost:8080/RESTServer/transacao/atribuirCategoriaNaTransacao/" +
+            		(nomeC) + "/" + (desc));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("PUT");
 
