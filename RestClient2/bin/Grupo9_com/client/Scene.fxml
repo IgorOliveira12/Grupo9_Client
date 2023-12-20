@@ -65,7 +65,7 @@
                      <font>
                         <Font size="14.0" />
                      </font></Button>
-                  <Button fx:id="getListaGastosCatButton" layoutX="14.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleGetListaGastosCat" text="Visualizar a %% de gastos de cada Categoria no Orcamento atual">
+                  <Button fx:id="getListaGastosCatButton" layoutX="14.0" layoutY="164.0" mnemonicParsing="false" onAction="#handleGetListaGastosCat" text="Visualizar a %% de gastos de cada Categoria">
                      <font>
                         <Font size="14.0" />
                      </font></Button>
@@ -127,7 +127,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="labelAddMeta" alignment="TOP_LEFT" layoutX="305.0" layoutY="14.0" prefHeight="234.0" prefWidth="912.0" wrapText="true">
+                  <Label fx:id="labelAddMeta" alignment="TOP_LEFT" layoutX="404.0" layoutY="14.0" prefHeight="234.0" prefWidth="813.0" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -156,7 +156,7 @@
                      <font>
                         <Font size="14.0" />
                      </font></Button>
-                  <Button fx:id="getMetasNCumpridasButton" layoutX="15.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleGetMetasNCumpridas" text="Listar todas as Metas não cumpridas">
+                  <Button fx:id="getMetasNCumpridasButton" layoutX="15.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleGetMetasNCumpridas" text="Listar todas as Metas não cumpridas ">
                      <font>
                         <Font size="14.0" />
                      </font></Button>
@@ -194,7 +194,7 @@
                      <font>
                         <Font size="14.0" />
                      </font></Button>
-                  <Label fx:id="labelTransacoes" alignment="TOP_LEFT" layoutX="10.0" layoutY="174.0" prefHeight="616.0" prefWidth="1221.0" wrapText="true">
+                  <Label fx:id="labelTransacoes" alignment="TOP_LEFT" layoutX="14.0" layoutY="174.0" prefHeight="680.0" prefWidth="1219.0" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font></Label>
@@ -203,7 +203,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Label fx:id="labelAddTransacao" alignment="TOP_LEFT" layoutX="348.0" layoutY="17.0" prefHeight="144.0" prefWidth="892.0" wrapText="true">
+                  <Label fx:id="labelAddTransacao" alignment="TOP_LEFT" layoutX="328.0" layoutY="9.0" prefHeight="151.0" prefWidth="897.0" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>

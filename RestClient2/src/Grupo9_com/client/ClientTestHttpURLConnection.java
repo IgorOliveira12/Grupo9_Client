@@ -28,68 +28,8 @@ public class ClientTestHttpURLConnection extends Application  {
      */
     public static void main(String[] args) {
     	launch(args);
-    	
-    	
-        // Operações relacionadas a Orcamentos
-    	
-        // 100% funcional
-    	//getOrcamentos();
-    	//getOrcamento("01-11-2022");
-    	//addOrcamento("10/12/2022", 18000.0);
-    	//adicionarOuReduzirValorOrcamento(500.0);
-    	//imprimirHistoricoOrcamentos();
-    	//mostrarStatusOrcamento();
-
-        // 100% funcional
-        //addCategoria("Moradia", 9000.0);
-    	//getCategorias();
-        //alterarGastoMaximoCategoria("Moradia",3890.0);
-        //deleteCategoria("Moradia");
-        //getCategoria("Moradia");
-        //visualizarPercentagemGastosPorCategoriaNoOrcamento();
-        //addSubcategoria("ComidaLegumes",1000.0);
-    	//atribuirCategoriaNaSubcategoria("Moradia", "ComidaLegumes");
-        
-        // 100% funcional
-        //addSubcategoria("Comidalegumes",1000.0);
-        //getSubcategorias();
-        //getSubcategoria("RefeicoesForaDeCasa");
-        //alterarGastoMaximoSubcategoria("Comidalegumes", 2500.0);
-        //deleteSubcategoria("Comidalegumes");
-        
-        // 100% funcional
-        //addTransacao("10/10/2005", 100.0, "RefeicoesForaDeCasa");
-        //getTransacoes();
-        //getTransacao("Alimentacao"); 
-        //deleteTransacao("Alimentacao");
-        //alterarCategoriaTransacao("Alimentacao", "Moradia"); 
-        //alterarSubcategoriaTransacao("Autocarro", "RefeicoesForaDeCasa"); 
-        //alterarDataTransacao("Alimentacao", "10/10/2030");
-    	//atribuirTransacaoEmCategoria("Alimentacao", "Alimentacao");
-    	//atribuirTransacaoEmSubcategoria("RefeicoesForaDeCasa", "GastoNoMcdonalds");
-    	//atribuirTransacaoEmMeta("CapaParaAssento", "PoupancaParaKitDeAssentos");
-    	//getCategoriaTransacao("Alimentacao");
-    	//getSubcategoriaMeta
-
-        // 100% funcional
-        //addMeta("Carro de sonho",15000.0,"15/12/2026","Quero alcancar a Ferrari o mais rapido possivel");
-        //getMetas();
-        //getMeta("Carro");
-        //alterarValorMeta("Carro", 15000.0);
-        //alterarPrazoMeta("Carro", "05-12-2028"); 
-        //deleteMeta("Carro");
-        //verificarMetasCumpridas();
-        //listarMetasNaoCumpridas();
 
     }
-    
-	/*
-	 * public static String replaceS(String input) { return input.replaceAll(" ",
-	 * "_"); }
-	 * 
-	 * public static String replaceDate(String input) { return input.replaceAll("/",
-	 * "_"); }
-	 */
 
     @Override
     public void start(Stage stage) throws IOException {
